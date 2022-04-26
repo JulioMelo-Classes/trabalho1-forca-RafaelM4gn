@@ -25,6 +25,7 @@ int main(int argc, char *argv[]){
         /*imprime o menu principal e a escolha do usuário*/
         int pontos = 0;
         int escolha;
+        int escolhaD;
         cout << "--------------------------------------------------------------------" << endl;
         cout << "Bem vindo ao Jogo Forca! Por favor escolha uma das opções" << endl;
         cout << "1 - Iniciar Jogo" << endl;
@@ -38,20 +39,20 @@ int main(int argc, char *argv[]){
             << "1 - Fácil" << endl
             << "2 - Médio" << endl
             << "3 - Difícil" << endl;
-        cout << "Sua escolha: ";
+        cout << "Sua escolha de dificuldade: ";
         cin >> escolha;
         
         }
         else if (escolha == 2)
         {
-        arquivoPonto.open(argv[2], ios::in);
-        string pontos;
-        while (!arquivoPonto.eof())
-        {
-            getline(arquivoPonto, pontos);
-            cout << pontos << endl;
-        }
-        
+            arquivoPonto.open(argv[2], ios::in);
+            string pontos;
+            while (!arquivoPonto.eof())
+            {
+                getline(arquivoPonto, pontos);
+                cout << pontos << endl;
+            }
+            
             cout<<"Deseja Jogar?"<<endl
                 <<"1 - Sim"<<endl
                 <<"2 - Não"<<endl;
@@ -67,18 +68,18 @@ int main(int argc, char *argv[]){
         exit(3);
 
         }
-        if (escolha == 1)
-        {
-            cout << "Vamos iniciar o jogo! Por favor escolha o nível de dificuldade" << endl
-                << "1 - Fácil" << endl
-                << "2 - Médio" << endl
-                << "3 - Difícil" << endl;
-            cout << "Sua escolha: ";
-            cin >> escolha;
+        // if (escolha == 1)
+        // {
+        //     cout << "Vamos iniciar o jogo! Por favor escolha o nível de dificuldade" << endl
+        //         << "1 - Fácil" << endl
+        //         << "2 - Médio" << endl
+        //         << "3 - Difícil" << endl;
+        //     cout << "Sua escolha de dificuldade: ";
+        //     cin >> escolhaD;
             /*Seleciona dificuldade*/
             Forca::Dificuldade d;
             //forca.set_dificuldade(d);
-            while(true){ //
+//            while(true){ //
 //                string p = forca.proxima_palavra();
                 /*exibe interface do jogo*/
 //                while (!forca.rodada_terminada()){ //loop da rodada
@@ -98,9 +99,9 @@ int main(int argc, char *argv[]){
                     /*imprime gameover e a palavra que estava sendo jogada*/
 //                    break;
 //                }
-            }
+//            }
             /*ler informações do jogador para o score e gravar no arquivo*/
-        }
+//        }
 //        else if(/*mostrar score*/)
             /*mostrar score*/
 //        else //qualquer outro número sai do jogo

@@ -34,6 +34,10 @@ pair<bool, string> Forca::eh_valido()
 
   int line = 0;
   ValidaPalavras.open(m_arquivo_palavras, ios::in);
+  if (ValidaPalavras.fail()) {
+      oss << "Arquivo " << m_arquivo_palavras << " nao encontrado";
+      return make_pair(false, oss.str());
+  }
   
   while(!ValidaPalavras.eof()){
     ValidaPalavras  >> frequencia >> palavra ;
@@ -55,6 +59,10 @@ pair<bool, string> Forca::eh_valido()
     }
   }
   ValidaScores.open(m_arquivo_scores, ios::in);
+  if (ValidaScores.fail()) {
+      oss << "Arquivo " << m_arquivo_scores << " nao encontrado";
+      return make_pair(false, oss.str());
+  }
   string dificulty;
   string nome;
   string pontuacao;
