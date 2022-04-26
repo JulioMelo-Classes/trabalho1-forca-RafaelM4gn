@@ -23,6 +23,9 @@ Forca::Forca(string palavras, string scores)
   m_arquivo_scores = scores;
 };
 
+void Forca::set_dificuldade(Dificuldade d){
+  
+}
 pair<bool, string> Forca::eh_valido()
 {
   fstream ValidaScores;

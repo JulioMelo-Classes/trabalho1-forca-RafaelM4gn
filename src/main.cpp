@@ -40,8 +40,11 @@ int main(int argc, char *argv[]){
             << "2 - Médio" << endl
             << "3 - Difícil" << endl;
         cout << "Sua escolha de dificuldade: ";
-        cin >> escolha;
-        
+        cin >> escolhaD;
+        if (escolhaD == 1) forca.set_dificuldade(forca.FACIL);
+        else if (escolhaD == 2) forca.set_dificuldade(forca.MEDIO);
+        else if (escolhaD == 3) forca.set_dificuldade(forca.DIFICIL);
+
         }
         else if (escolha == 2)
         {
