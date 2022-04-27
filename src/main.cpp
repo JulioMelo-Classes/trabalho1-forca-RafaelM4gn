@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
          << "e scores"
          << " [" << argv[2] << "] ,"
          << "por favor aguarde.." << endl;
-    // forca.carregar_arquivos();
+    forca.carregar_arquivos();
     auto valid = forca.eh_valido();
     if (!valid.first)
     { // sai do programa ao encontrar um erro

@@ -16,7 +16,91 @@ Forca::Forca(string palavras, string scores)
 
 void Forca::set_dificuldade(Dificuldade d)
 {
+    
+    m_dificuldade = d;
+    m_palavras_do_jogo = {};
+    int count= 0;
+    int media = 0;
+    for (int c = 0; c < m_palavras.size(); c++) {
+        media += m_palavras[c].second;
+    }
+    media = media / (m_palavras.size());
+
+    random_shuffle(m_palavras.begin(), m_palavras.end());
+    if (d == FACIL){
+        for (int c = 0; c < m_palavras.size(); c++)
+        {
+            if (m_palavras[c].second > media && count < 10)
+            {
+                m_palavras_do_jogo.push_back(m_palavras[c].first);
+                count++;
+            }
+            
+        }
+        
+    } else if (d == MEDIO){
+        count = 0;
+        for (int c = 0; c < m_palavras.size(); c++)
+        {
+            if (m_palavras[c].second < media && count < 6)
+            {
+                m_palavras_do_jogo.push_back(m_palavras[c].first);
+                count++;
+            } 
+        }
+        for (int c = 0; c < m_palavras.size(); c++)
+        {
+            if (m_palavras[c].second >= media && count < 20)
+            {
+                m_palavras_do_jogo.push_back(m_palavras[c].first);
+                count++;
+            } 
+        }
+    } else if (d == DIFICIL){
+        count = 0;
+        for (int c = 0; c < m_palavras.size(); c++)
+        {
+            if (m_palavras[c].second < media && count < 22)
+            {
+                m_palavras_do_jogo.push_back(m_palavras[c].first);
+                count++;
+            } 
+        }
+        for (int c = 0; c < m_palavras.size(); c++)
+        {
+            if (m_palavras[c].second >= media && count < 30)
+            {
+                m_palavras_do_jogo.push_back(m_palavras[c].first);
+                count++;
+            } 
+        }
+    }
+    for (int i = 0; i < m_palavras.size() ; i++)
+    {
+      cout << m_palavras[i].first << " " << m_palavras[i].second << endl;
+    }
+    for (int i = 0; i < m_palavras_do_jogo.size() ; i++)
+    {
+      cout << "palavras do jogo:" << m_palavras_do_jogo[i] << endl;
+    }
 }
+
+void Forca::carregar_arquivos()
+  {
+    fstream palavrasfile;
+    palavrasfile.open(m_arquivo_palavras, ios::in);
+    string palavra;
+    int frequencia;
+    while (!palavrasfile.eof())
+    {
+      palavrasfile >> palavra  >> frequencia ;
+      m_palavras.push_back(make_pair(palavra, frequencia));
+    }
+    for (int c = 0; c < m_palavras.size(); c++) {
+        transform(m_palavras[c].first.begin(), m_palavras[c].first.end(), m_palavras[c].first.begin(), ::toupper);
+    }
+  }
+
 pair<bool, string> Forca::eh_valido()
 {
     fstream ValidaScores;
@@ -36,7 +120,7 @@ pair<bool, string> Forca::eh_valido()
 
     while (!ValidaPalavras.eof())
     {
-        ValidaPalavras >> frequencia >> palavra;
+        ValidaPalavras >> palavra >> frequencia ;
         line++;
         if (palavra.size() <= 4)
         {
