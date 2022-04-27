@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
                 forca.set_dificuldade(forca.MEDIO);
             else if (escolhaD == 3)
                 forca.set_dificuldade(forca.DIFICIL);
+            string p = forca.proxima_palavra();
         }
         else if (escolha == 2)
         {

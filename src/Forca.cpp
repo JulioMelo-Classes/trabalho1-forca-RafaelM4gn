@@ -12,11 +12,73 @@ Forca::Forca(string palavras, string scores)
 {
     m_arquivo_palavras = palavras;
     m_arquivo_scores = scores;
-};
+}
+string Forca::proxima_palavra(){
+    m_palavra_atual = m_palavras_do_jogo[m_palavras_do_jogo.size() - 1];
+    m_palavras_do_jogo.pop_back();
+    m_palavra_jogada ={};//!< retorna "_ _ _ _ ... _"
+    for (int i = 0; i < m_palavra_atual.size(); i++)
+    {
+        m_palavra_jogada += '_';
+        if(i < m_palavra_atual.size()-1) m_palavra_jogada += ' ';
+    }
 
+    string letras_reveladas = "";
+    string conso = "BCDFGHJKLMNPQRSTVWXYZ";
+    vector<char> consoantes = {};
+    vector<char> vogais = {};
+    cout << "chegou aqui" << endl;
+    if(m_dificuldade == FACIL){
+        for (int c = 0; c < m_palavra_atual.size(); c++)
+            if( m_palavra_atual[c] !='-' && m_palavra_atual[c] !='A' && m_palavra_atual[c] !='E' && m_palavra_atual[c] !='I' && m_palavra_atual[c] !='O' && m_palavra_atual[c] !='U')
+                consoantes.push_back(m_palavra_atual[c]);
+        for (int i = 0; i < m_palavra_atual.size()/5; i++)
+        {
+            int temp_rand = rand()%consoantes.size();
+            if(letras_reveladas.find_first_of(consoantes[temp_rand]) == std::string::npos)
+                letras_reveladas += consoantes[temp_rand];
+        }
+    } else if (m_dificuldade == MEDIO){
+        for (int c = 0; c < m_palavra_atual.size(); c++)
+            if( m_palavra_atual[c] =='A' || m_palavra_atual[c] =='E' || m_palavra_atual[c] =='I' || m_palavra_atual[c] =='O' || m_palavra_atual[c] =='U')
+                vogais.push_back(m_palavra_atual[c]);
+        for (int i = 0; i < m_palavra_atual.size()/5; i++)
+        {
+            int temp_rand2 = rand()%vogais.size();
+            if(letras_reveladas.find_first_of(vogais[temp_rand2]) == std::string::npos)
+                letras_reveladas += vogais[temp_rand2];
+        }
+    }
+    cout << "chegou aqui 2" << endl;
+
+    for (int i = 0; i < letras_reveladas.size(); i++){
+        for (int j = 0; j < m_palavra_atual.size(); j++){
+            if(m_palavra_atual[j] == letras_reveladas[i])
+            {
+                m_palavra_jogada[j*2] = letras_reveladas[i];
+                break;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    for (int i = 0; i < consoantes.size(); i++) cout << "consoantes "<< consoantes[i]<< endl;
+    cout << "palavra_atual "<< m_palavra_atual<< endl;
+    cout << "palavra_jogada "<< m_palavra_jogada << endl;
+    cout << "letras reveladas "<< letras_reveladas << endl;
+    
+    return m_palavra_atual;
+}
 void Forca::set_dificuldade(Dificuldade d)
 {
-    
     m_dificuldade = d;
     m_palavras_do_jogo = {};
     int count= 0;
@@ -25,12 +87,11 @@ void Forca::set_dificuldade(Dificuldade d)
         media += m_palavras[c].second;
     }
     media = media / (m_palavras.size());
-
     random_shuffle(m_palavras.begin(), m_palavras.end());
     if (d == FACIL){
         for (int c = 0; c < m_palavras.size(); c++)
         {
-            if (m_palavras[c].second > media && count < 10)
+            if (m_palavras[c].second < media && count < 10)
             {
                 m_palavras_do_jogo.push_back(m_palavras[c].first);
                 count++;
