@@ -23,6 +23,7 @@ class Forca {
         std::string m_palavra_jogada; //<! palavra sendo jogada “atualmente” no formato “_ _ _ ... _ “
         
         int m_tentativas_restantes; //TODO: armazenar tentativas restantes
+        int m_pontos; //TODO: armazenar a quantidade de pontos
    
     public:
         /**

@@ -6,7 +6,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     fstream arquivoPonto;
-
     Forca forca = Forca(argv[1], argv[2]);
     cout << ">>> Lendo arquivos de palavras"
          << " [" << argv[1] << "] "
@@ -50,7 +49,38 @@ int main(int argc, char *argv[])
                 forca.set_dificuldade(forca.MEDIO);
             else if (escolhaD == 3)
                 forca.set_dificuldade(forca.DIFICIL);
-            string p = forca.proxima_palavra();
+            
+            while (true)
+            {
+                forca.proxima_palavra();
+                string palpite;
+                cout << forca.get_tentativas_restantes() << " tentativas disponive" << endl;
+                while (!forca.rodada_terminada()){
+                    cout << "Digite uma letra: " << endl;
+                    cin >> palpite;
+                    auto result = forca.palpite(palpite);
+                    cout << "chances:" << forca.get_tentativas_restantes() << endl;
+                    cout << "resultado: "<< result.first << "ja escolhido: " << result.second << endl;
+                }
+                if(forca.get_palavra_jogada().find_first_of('_') == std::string::npos){
+                    /*imprime interface de continuar / parar*/
+                    int escolhaC;
+                    cout << "Parabens voce acertou a palavra! deseja continuar jogando?" << endl
+                            << "1 - Claro!" << endl
+                            << "2 - Quero nao" << endl
+                            << "Sua escolha: ";
+                    cin >> escolhaC;
+                    if(escolhaC == 2){
+                        break;
+                    } else {
+
+                    }
+                } else { /*perdeu*/
+                    /*imprime gameover e a palavra que estava sendo jogada*/
+                    cout << "GAME OVER. A palavra era " << forca.get_palavra_atual() << endl;
+                    break;
+                }
+            }
         }
         else if (escolha == 2)
         {
@@ -61,7 +91,6 @@ int main(int argc, char *argv[])
                 getline(arquivoPonto, pontos);
                 cout << pontos << endl;
             }
-
             cout << "Voltar ao menu?" << endl
                  << "1 - Sim" << endl
                  << "2 - Não" << endl;

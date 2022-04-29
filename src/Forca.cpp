@@ -14,6 +14,7 @@ Forca::Forca(string palavras, string scores)
     m_arquivo_scores = scores;
 }
 string Forca::proxima_palavra(){
+    m_tentativas_restantes = 6;
     m_palavra_atual = m_palavras_do_jogo[m_palavras_do_jogo.size() - 1];
     m_palavras_do_jogo.pop_back();
     m_palavra_jogada ={};//!< retorna "_ _ _ _ ... _"
@@ -22,12 +23,10 @@ string Forca::proxima_palavra(){
         m_palavra_jogada += '_';
         if(i < m_palavra_atual.size()-1) m_palavra_jogada += ' ';
     }
-
     string letras_reveladas = "";
     string conso = "BCDFGHJKLMNPQRSTVWXYZ";
     vector<char> consoantes = {};
     vector<char> vogais = {};
-    cout << "chegou aqui" << endl;
     if(m_dificuldade == FACIL){
         for (int c = 0; c < m_palavra_atual.size(); c++)
             if( m_palavra_atual[c] !='-' && m_palavra_atual[c] !='A' && m_palavra_atual[c] !='E' && m_palavra_atual[c] !='I' && m_palavra_atual[c] !='O' && m_palavra_atual[c] !='U')
@@ -35,7 +34,7 @@ string Forca::proxima_palavra(){
         for (int i = 0; i < m_palavra_atual.size()/5; i++)
         {
             int temp_rand = rand()%consoantes.size();
-            if(letras_reveladas.find_first_of(consoantes[temp_rand]) == std::string::npos)
+            if(letras_reveladas.find_first_of(consoantes[temp_rand]) == string::npos)
                 letras_reveladas += consoantes[temp_rand];
         }
     } else if (m_dificuldade == MEDIO){
@@ -45,40 +44,29 @@ string Forca::proxima_palavra(){
         for (int i = 0; i < m_palavra_atual.size()/5; i++)
         {
             int temp_rand2 = rand()%vogais.size();
-            if(letras_reveladas.find_first_of(vogais[temp_rand2]) == std::string::npos)
+            if(letras_reveladas.find_first_of(vogais[temp_rand2]) == string::npos)
                 letras_reveladas += vogais[temp_rand2];
         }
     }
-    cout << "chegou aqui 2" << endl;
-
     for (int i = 0; i < letras_reveladas.size(); i++){
         for (int j = 0; j < m_palavra_atual.size(); j++){
             if(m_palavra_atual[j] == letras_reveladas[i])
             {
                 m_palavra_jogada[j*2] = letras_reveladas[i];
-                break;
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-    for (int i = 0; i < consoantes.size(); i++) cout << "consoantes "<< consoantes[i]<< endl;
     cout << "palavra_atual "<< m_palavra_atual<< endl;
     cout << "palavra_jogada "<< m_palavra_jogada << endl;
-    cout << "letras reveladas "<< letras_reveladas << endl;
-    
+    for (int c = 0; c < letras_reveladas.size();c++){
+        m_letras_palpitadas.push_back(letras_reveladas[c]);
+        cout << "letras reveladas no vetor "<< m_letras_palpitadas[c] << endl;
+    }
     return m_palavra_atual;
 }
 void Forca::set_dificuldade(Dificuldade d)
 {
+    m_pontos = 0;
     m_dificuldade = d;
     m_palavras_do_jogo = {};
     int count= 0;
@@ -135,14 +123,6 @@ void Forca::set_dificuldade(Dificuldade d)
                 count++;
             } 
         }
-    }
-    for (int i = 0; i < m_palavras.size() ; i++)
-    {
-      cout << m_palavras[i].first << " " << m_palavras[i].second << endl;
-    }
-    for (int i = 0; i < m_palavras_do_jogo.size() ; i++)
-    {
-      cout << "palavras do jogo:" << m_palavras_do_jogo[i] << endl;
     }
 }
 
@@ -239,4 +219,62 @@ pair<bool, string> Forca::eh_valido()
         }
     }
     return make_pair(true, "");
+}
+pair<bool, bool> Forca::palpite(string palpite){
+    // Este método deve atualizar os atributos m_tentativas, m_palavra_jogada e m_letras_palpitadas, para refletir
+    // as situações citadas. No caso da letra já ter sido escolhida, o método não deve atualizar m_tentativas.
+    bool nao_palpitada_antes = true;
+    for (int i = 0; i < m_letras_palpitadas.size(); i++)
+    {
+        if (palpite[0] == m_letras_palpitadas[i]){
+            nao_palpitada_antes = false;
+            break;
+        } 
+    }
+    if(nao_palpitada_antes){
+        m_letras_palpitadas.push_back(palpite[0]);
+    }
+    if(m_palavra_atual.find_first_of(palpite) != string::npos){
+        for (int i = 0; i < m_palavra_atual.size(); i++){
+            if(m_palavra_atual[i] == palpite[0])
+            {
+                m_palavra_jogada[i*2] = palpite[0];
+                //adicionar m_pontos no hpp
+                if (nao_palpitada_antes) m_pontos++;
+            }
+        }
+        if(m_palavra_atual[m_palavra_atual.size() - 1] == palpite[0]) {
+            if (nao_palpitada_antes) m_pontos += 2;
+        }
+        cout << "-palavra_atual: "<< m_palavra_atual<< endl;
+        cout << "-palavra_jogada: "<< m_palavra_jogada << endl;
+        cout << "-pontos: "<< m_pontos << endl;
+        for (int c = 0; c < m_letras_palpitadas.size();c++){
+            cout << "-letras palpitadas no vetor: "<< m_letras_palpitadas[c] << endl;
+        }
+        return make_pair(true , nao_palpitada_antes);
+    } else {
+        if(nao_palpitada_antes) m_tentativas_restantes--;
+        return make_pair(false , nao_palpitada_antes);
+    }
+
+
+}
+string Forca::get_palavra_jogada(){
+    return m_palavra_jogada;
+}
+
+string Forca::get_palavra_atual(){
+    return m_palavra_atual;
+}
+
+int Forca::get_tentativas_restantes(){
+    return m_tentativas_restantes;
+}
+bool Forca::rodada_terminada(){
+    if(m_tentativas_restantes == 0 || m_palavra_jogada.find_first_of('_') == std::string::npos)
+    {
+        return true;
+    }
+    return false;
 }
