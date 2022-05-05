@@ -19,6 +19,9 @@ Repositório contendo as especificações do Trabalho 1 da disciplina de LP1
 - /data/ScoresErro_1.txt
 - /data/ScoresErro_2.txt
 
+# Limitações ou funcionalidades não implementadas no programa
+- alinhamento da primeira linha do quando exibe o score.
+
 
 # Documento de Especificação
 
