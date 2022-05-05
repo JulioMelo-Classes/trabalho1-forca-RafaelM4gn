@@ -2,8 +2,15 @@
 Repositório contendo as especificações do Trabalho 1 da disciplina de LP1
 
 # Compilação
-- g++ src/main.cpp src/Forca.cpp -o program
-- ./program data/palavras.txt data/scores.txt
+- cd trabalho-1-RafaelM4gn
+- mkdir build
+- cd build
+- cmake ../
+- make
+
+# Execução
+- ./jogo ../data/palavras.txt ../data/scores.txt
+
 
 # Documento de Especificação
 
