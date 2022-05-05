@@ -169,6 +169,9 @@ void Forca::set_dificuldade(Dificuldade d)
 
 void Forca::carregar_arquivos()
 {
+	/* Limpa os vetores antes de carregar os arquivos*/
+	m_scores.clear();
+	m_palavras.clear();
 	/* Carrega o arquivo de palavras em um vetor*/
 	fstream palavrasfile;
 	palavrasfile.open(m_arquivo_palavras, ios::in);
