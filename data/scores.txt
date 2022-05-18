@@ -23,3 +23,6 @@ Fácil; KLEBER; DEPUTADOS;10
 Médio; Nicolas; QUAN DO, FOR MA, FO RAM;19
 Difícil; bruno; BRA-SIL, TO-DOS;15
 Médio; DUDA; QUAN-DO, FOR-MA, FO-RAM;19
+Médio; julio; ;0
+Médio; Julio espaco; ;0
+Fácil; JULIO TESTSE; DEPUTADOS, DADOS;12
